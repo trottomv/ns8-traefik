@@ -40,7 +40,10 @@
     "dependencies": {
         "host": {
             "required": ["lets_encrypt"]
-        }
+        },
+	"strip_prefix": {
+	    "required": ["path"]
+	}
     },
     "properties": {
         "instance": {
@@ -81,6 +84,11 @@
             "type": "boolean",
             "title": "HTTP to HTTPS redirection",
             "description": "Redirect all the HTTP requests to HTTPS"
-        }
+        },
+	"strip_prefix": {
+	    "type": "boolean",
+	    "title": "Strip prefix path",
+	    "description": "Strip the path prefix from the request"
+	}
     }
 }
