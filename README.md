@@ -31,6 +31,7 @@ This is the priority of the rules type evaluation (top-down):
 - `path`: a path prefix, the matching evaluation will be performed whit and without the trailing slash, eg `/foo` will match `/foo` and `/foo/*`, also `/foo/` will match `/foo` and `/foo/*`
 - `lets_encrypt`: can be `true` or `false`, if set to `true` request a valid Let's Encrypt certificate, mandatory
 - `http2https` can be `true` or `false`, if set to `true` HTTP will be redirect to HTTPS, mandatory
+- `strip_prefix`: can be `true` or `false`, if set to `true` the prefix of the requested path will be stripped from the original request before sending it to the downstream server.
 
 ### Examples
 
