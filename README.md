@@ -4,6 +4,7 @@ This module implements a proxy for web applications using [Traefik](https://doc.
 
 The module exposes 2 actions:
 - `set-route`
+- `get-route`
 - `delete-route`
 - `set-certificate`
 - `delete-certificate`
@@ -73,6 +74,22 @@ api-cli run set-route --agent module/traefik1 --data - <<EOF
   "http2https": true
 }
 EOF
+```
+## get-route
+
+This action get an existing route. It returns a JSON object that describes the route configuration, if the
+route is not found an empty JSON object is returned.
+The action takes 1 parameter:
+- `instance`: the instance name
+
+Example:
+```
+api-cli run get-route --agent module/traefik1 --data '{"instance": "module1"}'
+```
+
+Output:
+```json
+{"instance": "module3", "host": "module.example.org", "path": "/foo", "url": "http://127.0.0.0:2000", "lets_encrypt": true, "http2https": true, "strip_prefix": false}
 ```
 
 ## delete-route
