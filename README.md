@@ -6,6 +6,7 @@ The module exposes 2 actions:
 - `set-route`
 - `get-route`
 - `delete-route`
+- `list-routes`
 - `set-certificate`
 - `delete-certificate`
 
@@ -101,6 +102,22 @@ The action takes 1 parameter:
 Example:
 ```
 api-cli run delete-route --agent module/traefik1 --data '{"instance": "module1"}'
+```
+
+## list-routes
+
+This action returns a list of configured routes, the list is an JSON array, and if no route is configured, an
+empty array is returned.
+The action takes no parameter:
+
+Example:
+```
+api-cli run list-routes --agent module/traefik1
+```
+
+Output:
+```json
+["module1", "module2", "module3"]
 ```
 
 ## set-certificate
