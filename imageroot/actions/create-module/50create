@@ -80,5 +80,25 @@ SET "${AGENT_ID}/kv/tls/stores/default/defaultCertificate/certFile" "/etc/traefi
 SET "${AGENT_ID}/kv/tls/stores/default/defaultCertificate/keyFile" "/etc/traefik/selfsigned.key"
 EOF
 
+#
+# Setup APIs endpoint
+#
+API_PATH=$(uuidgen)
+cat >&${AGENT_COMFD} <<EOF
+set-env API_PATH ${API_PATH}
+dump-env
+EOF
+
+redis-exec <<EOF
+SET "${AGENT_ID}/kv/http/routers/ApisEndpointHttp/entryPoints/0" "http"
+SET "${AGENT_ID}/kv/http/routers/ApisEndpointHttp/rule" "PathPrefix(\`/${API_PATH}/api\`)"
+SET "${AGENT_ID}/kv/http/routers/ApisEndpointHttp/service" "api@internal"
+SET "${AGENT_ID}/kv/http/routers/ApisEndpointHttp/middlewares/0" "ApisEndpointMw0"
+SET "${AGENT_ID}/kv/http/routers/ApisEndpointHttp/middlewares/1" "ApisEndpointMw1"
+SET "${AGENT_ID}/kv/http/routers/ApisEndpointHttp/priority" "1"
+SET "${AGENT_ID}/kv/http/middlewares/ApisEndpointMw0/ipWhiteList/sourceRange/0" "127.0.0.1"
+SET "${AGENT_ID}/kv/http/middlewares/ApisEndpointMw1/stripPrefix/prefixes/0" "/${API_PATH}"
+EOF
+
 # Enable and start the services
 systemctl --user enable --now traefik.service
