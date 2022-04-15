@@ -9,6 +9,7 @@ The module exposes 2 actions:
 - `list-routes`
 - `set-certificate`
 - `delete-certificate`
+- `list-certificates`
 
 ## set-route
 
@@ -150,4 +151,20 @@ The action takes 1 parameter:
 Example:
 ```
 api-cli run delete-certificate --agent module/traefik1 --data "{\"fqdn\": \"$(hostname -f)\""
+```
+
+## list-certificates
+
+This action returns a list of requested certificate, the list is an JSON array, and if no certificate was requested, an
+empty array is returned.
+The action takes no parameter:
+
+Example:
+```
+api-cli run list-certificates --agent module/traefik1
+```
+
+Output:
+```json
+["example.com"]
 ```
