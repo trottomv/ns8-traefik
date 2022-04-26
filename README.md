@@ -8,7 +8,9 @@ The module exposes 2 actions:
 - `delete-route`
 - `list-routes`
 - `set-certificate`
+- `get-certificate`
 - `delete-certificate`
+- `list-certificates`
 
 ## set-route
 
@@ -138,6 +140,23 @@ Example:
 api-cli run set-certificate --agent module/traefik1 --data "{\"fqdn\": \"$(hostname -f)\""
 ```
 
+## get-certificate
+
+Run this action to get the status of requested a Let's Encrypt certificate
+
+The action takes 1 parameter:
+- `fqdn`: the fqdn of the requested certificate
+
+Example:
+```
+api-cli run get-certificate --agent module/traefik1 --data "{\"fqdn\": \"$(hostname -f)\""
+```
+
+Output:
+```
+{"fqdn": "example.com", "obtained": true}
+```
+
 ## delete-certificate
 
 This action deletes an existing route used for explicit request a certificate.
@@ -150,4 +169,20 @@ The action takes 1 parameter:
 Example:
 ```
 api-cli run delete-certificate --agent module/traefik1 --data "{\"fqdn\": \"$(hostname -f)\""
+```
+
+## list-certificates
+
+This action returns a list of requested certificate, the list is an JSON array, and if no certificate was requested, an
+empty array is returned.
+The action takes no parameter:
+
+Example:
+```
+api-cli run list-certificates --agent module/traefik1
+```
+
+Output:
+```json
+["example.com"]
 ```
