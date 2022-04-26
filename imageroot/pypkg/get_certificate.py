@@ -40,17 +40,19 @@ def get_certificate(data):
         if traefik_https_route['status'] == 'disabled':
             return {}
 
-        # Open the certificates storage file
-        with open(f'/home/{moduleid}/.local/share/containers/storage/volumes/traefik-acme/_data/acme.json') as f:
-            acme_storage = json.load(f)
-
         certificate['fqdn'] = fqdn
 
         certificate['obtained'] = False
 
-        resolver = traefik_https_route['tls']['certResolver']
-
-        certificates = acme_storage[resolver].get('Certificates')
+        # Open the certificates storage file
+        with open(f'/home/{moduleid}/.local/share/containers/storage/volumes/traefik-acme/_data/acme.json') as f:
+            #check if the file is not empty
+            if f != None:
+                acme_storage = json.load(f)
+                resolver = traefik_https_route['tls']['certResolver']
+                certificates = acme_storage[resolver].get('Certificates')
+            else:
+                certificates = None
 
         # Check if the certificate is present in the storage
         for cert in certificates if certificates else []:
