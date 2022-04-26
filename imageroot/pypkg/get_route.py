@@ -43,6 +43,10 @@ def get_route(data):
         with urllib.request.urlopen(f'http://127.0.0.1/{api_path}/api/http/routers/{module}-http@redis') as res:
             traefik_http_route = json.load(res)
 
+        # Check if the route is ready to use
+        if traefik_http_route['status'] == 'disabled' or traefik_https_route['status'] == 'disabled':
+            return {}
+
         service_name = traefik_https_route['service']
         # Get the service from the API
         with urllib.request.urlopen(f'http://127.0.0.1/{api_path}/api/http/services/{service_name}@redis') as res:

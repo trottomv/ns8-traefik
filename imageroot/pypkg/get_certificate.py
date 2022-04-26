@@ -36,6 +36,10 @@ def get_certificate(data):
         with urllib.request.urlopen(f'http://127.0.0.1/{api_path}/api/http/routers/certificate-{fqdn}@redis') as res:
             traefik_https_route = json.load(res)
 
+        # Check if the route is ready to use
+        if traefik_https_route['status'] == 'disabled':
+            return {}
+
         # Open the certificates storage file
         with open(f'/home/{moduleid}/.local/share/containers/storage/volumes/traefik-acme/_data/acme.json') as f:
             acme_storage = json.load(f)
