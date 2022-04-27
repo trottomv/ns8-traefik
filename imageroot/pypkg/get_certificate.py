@@ -47,11 +47,12 @@ def get_certificate(data):
         # Open the certificates storage file
         with open(f'/home/{moduleid}/.local/share/containers/storage/volumes/traefik-acme/_data/acme.json') as f:
             #check if the file is not empty
-            if f != None:
-                acme_storage = json.load(f)
-                resolver = traefik_https_route['tls']['certResolver']
-                certificates = acme_storage[resolver].get('Certificates')
-            else:
+            try:
+                if f != None:
+                    acme_storage = json.load(f)
+                    resolver = traefik_https_route['tls']['certResolver']
+                    certificates = acme_storage[resolver].get('Certificates')
+            except json.decoder.JSONDecodeError:
                 certificates = None
 
         # Check if the certificate is present in the storage
