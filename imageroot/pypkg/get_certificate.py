@@ -60,12 +60,10 @@ def get_certificate(data):
                 certificate['obtained'] = True
                 break
 
-    except urllib.error.HTTPError as e:
+    except (urllib.error.HTTPError, urllib.error.URLError, json.decoder.JSONDecodeError)  as e:
         if e.code == 404:
             # If the certificate is not found, return an empty JSON object
             pass
-
-    except urllib.error.URLError as e:
-        raise Exception(f'Error reaching traefik daemon: {e.reason}') from e
+         raise Exception(f'Error reaching traefik daemon: {e.reason}') from e
 
     return certificate
